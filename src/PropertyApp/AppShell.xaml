@@ -4,11 +4,36 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:PropertyApp"
-    Shell.FlyoutBehavior="Disabled">
+    Shell.FlyoutBehavior="Flyout"
+    FlyoutWidth="250"
+    >
 
+    <Shell.FlyoutHeader>
+        <Label
+            Text="Menu"
+            FontSize="32"
+            FontAttributes="Bold"
+            HorizontalTextAlignment="Center"
+            Margin="20"
+            />
+    </Shell.FlyoutHeader>
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        Route="MainPage"
+        />
+
+    <ShellContent
+        Title="Capture"
+        />
+
+    <ShellContent
+        Title="Issues"
+        />
+
+    <ShellContent
+        Title="About"
+        ContentTemplate="{DataTemplate local:AboutPage}"
+        />
 
 </Shell>

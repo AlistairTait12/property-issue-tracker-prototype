@@ -13,7 +13,7 @@
             <Label
                 Grid.Row="0"
                 HorizontalTextAlignment="Center"
-                Text="App Name"
+                Text="Prop App"
                 FontSize="56"
                 FontAttributes="Bold"
                 Margin="0,50,0,0"
