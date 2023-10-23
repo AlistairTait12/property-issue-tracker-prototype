@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PropertyApp.AboutPage"
+             Title="AboutPage">
+    <VerticalStackLayout>
+        <Label 
+            Text="About"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center"
+            Margin="20"
+            FontAttributes="Bold"
+            FontSize="Title"
+            />
+        <Label
+            Padding="10"
+            >
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span>
+                        Hi, and welcome to the prototype of the prop app. This is a bare bones prototype of the
+                        kind of application I am aiming for. The code for this application can be found at
+                    </Span>
+                    <!--HACK Need to find better way of rendering whitespace in XAML, and also turn this into a real link-->
+                    <Span Text=" "/>
+                    <Span TextColor="Blue">
+                        https://github.com/AlistairTait12/property-issue-tracker-prototype
+                    </Span>
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+    </VerticalStackLayout>
+</ContentPage>
