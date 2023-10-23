@@ -41,6 +41,7 @@ Other basic features I have thought of but are currently out of scope are:
 - 👷‍♀️ User log in
 - ☁️ Remote storage of records (bit of a hack but will just be stored locally in a JSON file)
 - 💬 Commenting on issues
+- ⚗️ Unit tests (😮 I know, right? Even as a firm believer in TDD, I am not letting unit tests get in the way of messing about with a prototype. My main focus is on experimentation and seeing what MAUI can do)
   
 ## Any future plans?
 Yes! I would like to try a few prototypes first in one or two more languages and all being well, I would like to choose the right one and develop a real, fully functional application.  
