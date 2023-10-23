@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:PropertyApp"
+    xmlns:View="clr-namespace:PropertyApp.View"
     Shell.FlyoutBehavior="Flyout"
     FlyoutWidth="250"
     >
@@ -19,7 +20,7 @@
     </Shell.FlyoutHeader>
     <ShellContent
         Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
+        ContentTemplate="{DataTemplate View:MainPage}"
         Route="MainPage"
         />
 
@@ -29,11 +30,12 @@
 
     <ShellContent
         Title="Issues"
+        ContentTemplate="{DataTemplate View:IssuesListPage}"
         />
 
     <ShellContent
         Title="About"
-        ContentTemplate="{DataTemplate local:AboutPage}"
+        ContentTemplate="{DataTemplate View:AboutPage}"
         />
 
 </Shell>
