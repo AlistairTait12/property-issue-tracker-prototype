@@ -26,10 +26,8 @@ public class ModelHandlerTests
         // Arrange
         _modelHandler = new ModelHandler();
 
-        // Act
-        _modelHandler.SetTitle("Jerry's doomed to fail issue");
-
         // Assert
+        Assert.That(() => _modelHandler.SetTitle("Jerry's doomed to fail issue"), Throws.TypeOf<InvalidOperationException>());
         Assert.That(() => _modelHandler.GetTitle(), Throws.TypeOf<InvalidOperationException>());
     }
 }

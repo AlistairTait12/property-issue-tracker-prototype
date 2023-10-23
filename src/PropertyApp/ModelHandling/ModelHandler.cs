@@ -1,15 +1,19 @@
-﻿namespace PropertyApp.ModelHandling;
+﻿using PropertyApp.Model;
+
+namespace PropertyApp.ModelHandling;
 
 public class ModelHandler : IModelHandler
 {
+    private IssueModel _currentModel;
+
     public void InitModel()
     {
-        throw new NotImplementedException();
+        _currentModel = new IssueModel();
     }
 
     public void ClearModel()
     {
-        throw new NotImplementedException();
+        _currentModel = null;
     }
 
     public void SetImagePath(string path)
@@ -24,12 +28,24 @@ public class ModelHandler : IModelHandler
 
     public void SetTitle(string title)
     {
-        throw new NotImplementedException();
+        if (_currentModel is null)
+        {
+            throw new InvalidOperationException
+                ($"{nameof(_currentModel)} is null, unable to set property {nameof(_currentModel.Title)}");
+        }
+
+        _currentModel.Title = title;
     }
 
     public string GetTitle()
     {
-        throw new NotImplementedException();
+        if (_currentModel is null)
+        {
+            throw new InvalidOperationException
+                ($"{nameof(_currentModel)} is null, unable to get property {nameof(_currentModel.Title)}");
+        }
+
+        return _currentModel.Title;
     }
 
     public void SetDescription(string description)
