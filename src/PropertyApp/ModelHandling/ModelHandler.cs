@@ -18,63 +18,70 @@ public class ModelHandler : IModelHandler
 
     public void SetImagePath(string path)
     {
-        throw new NotImplementedException();
+        ValidateModel(nameof(_currentModel.ImagePath));
+        _currentModel.ImagePath = path;
     }
 
     public string GetImagePath()
     {
-        throw new NotImplementedException();
+        ValidateModel(nameof(_currentModel.ImagePath));
+        return _currentModel.ImagePath;
     }
 
     public void SetTitle(string title)
     {
-        if (_currentModel is null)
-        {
-            throw new InvalidOperationException
-                ($"{nameof(_currentModel)} is null, unable to set property {nameof(_currentModel.Title)}");
-        }
-
+        ValidateModel(nameof(_currentModel.Title));
         _currentModel.Title = title;
     }
 
     public string GetTitle()
     {
-        if (_currentModel is null)
-        {
-            throw new InvalidOperationException
-                ($"{nameof(_currentModel)} is null, unable to get property {nameof(_currentModel.Title)}");
-        }
-
+        ValidateModel(nameof(_currentModel.Title));
         return _currentModel.Title;
     }
 
     public void SetDescription(string description)
     {
-        throw new NotImplementedException();
+        ValidateModel(nameof(_currentModel.Description));
+        _currentModel.Description = description;
     }
 
     public string GetDescription()
     {
-        throw new NotImplementedException();
+        ValidateModel(nameof(_currentModel.Description));
+        return _currentModel.Description;
     }
 
     public void SetLocation(Location location)
     {
-        throw new NotImplementedException();
+        ValidateModel(nameof(_currentModel.Location));
+        _currentModel.Location = location;
     }
 
     public Location GetLocation()
     {
-        throw new NotImplementedException();
+        ValidateModel(nameof(_currentModel.Location));
+        return _currentModel.Location;
     }
 
     public void SetCapturedDateAndTime(DateTime capturedDateAndTime)
     {
-        throw new NotImplementedException();
+        ValidateModel(nameof(_currentModel.CapturedDateAndTime));
+        _currentModel.CapturedDateAndTime = capturedDateAndTime;
     }
 
     public DateTime GetCapturedDateAndTime()
     {
-        throw new NotImplementedException();
+        ValidateModel(nameof(_currentModel.CapturedDateAndTime));
+        return _currentModel.CapturedDateAndTime;
+    }
+
+    private void ValidateModel(string propName)
+    {
+        if (_currentModel is null)
+        {
+            throw new InvalidOperationException
+                ($"{nameof(_currentModel)} is null, unable to get or set property {propName}");
+        }
     }
 }

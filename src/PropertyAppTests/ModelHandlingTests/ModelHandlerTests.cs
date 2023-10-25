@@ -21,13 +21,38 @@ public class ModelHandlerTests
     }
 
     [Test]
-    public void SetTitleWithoutInitializingTheModelThrowsError()
+    public void SetTitleWithoutInitializingTheModelThrowsException()
     {
         // Arrange
         _modelHandler = new ModelHandler();
 
+        // Act
+        var setTitleAction = () => _modelHandler.SetTitle("Jerry's doomed to fail issue");
+        var getTitleAction = () => _modelHandler.GetTitle();
+
         // Assert
-        Assert.That(() => _modelHandler.SetTitle("Jerry's doomed to fail issue"), Throws.TypeOf<InvalidOperationException>());
-        Assert.That(() => _modelHandler.GetTitle(), Throws.TypeOf<InvalidOperationException>());
+        setTitleAction.Should().Throw<InvalidOperationException>()
+            .WithMessage("_currentModel is null, unable to get or set property Title");
+        getTitleAction.Should().Throw<InvalidOperationException>()
+            .WithMessage("_currentModel is null, unable to get or set property Title");
+    }
+
+    [Test]
+    public void GettingModelValuesAfterSettingThemThenClearingModelThrowsException()
+    {
+        // Arrange
+        _modelHandler = new ModelHandler();
+        _modelHandler.InitModel();
+        _modelHandler.SetCapturedDateAndTime(new(2023, 10, 25, 12, 48, 59));
+        _modelHandler.SetTitle("Doomed to fail issue");
+        _modelHandler.SetDescription("Trying to get something on this model after the next step with throw error");
+
+        // Act
+        _modelHandler.ClearModel();
+        var getDescriptionAction = () => _modelHandler.GetDescription();
+
+        // Assert
+        getDescriptionAction.Should().Throw<InvalidOperationException>()
+            .WithMessage("_currentModel is null, unable to get or set property Description");
     }
 }
