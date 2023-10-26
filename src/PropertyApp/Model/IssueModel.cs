@@ -8,7 +8,7 @@ public record IssueModel
 
     public string Description { get; set; }
 
-    public Location Location { get; set; }
+    public IssueCoordinatesModel Location { get; set; }
 
     public DateTime CapturedDateAndTime { get; set; }
 }

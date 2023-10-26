@@ -5,6 +5,17 @@ namespace PropertyApp.ModelHandling;
 public class ModelHandler : IModelHandler
 {
     private IssueModel _currentModel;
+    private static bool _instanceExists = false;
+
+    public ModelHandler()
+    {
+        if (_instanceExists)
+        {
+            throw new InvalidOperationException(
+                $"Cannot create more than one instance of {nameof(ModelHandler)} class");
+        }
+        _instanceExists = true;
+    }
 
     public void InitModel()
     {
@@ -52,13 +63,13 @@ public class ModelHandler : IModelHandler
         return _currentModel.Description;
     }
 
-    public void SetLocation(Location location)
+    public void SetLocation(IssueCoordinatesModel location)
     {
         ValidateModel(nameof(_currentModel.Location));
         _currentModel.Location = location;
     }
 
-    public Location GetLocation()
+    public IssueCoordinatesModel GetIssueCoordinates()
     {
         ValidateModel(nameof(_currentModel.Location));
         return _currentModel.Location;

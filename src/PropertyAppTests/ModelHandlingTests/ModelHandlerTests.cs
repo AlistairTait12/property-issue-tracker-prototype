@@ -1,16 +1,60 @@
-﻿using PropertyApp.ModelHandling;
+﻿using Microsoft.Extensions.DependencyInjection;
+using PropertyApp.Model;
+using PropertyApp.ModelHandling;
 
 namespace PropertyAppTests.ModelHandlingTests;
 
 public class ModelHandlerTests
 {
     private ModelHandler _modelHandler;
+    private IServiceProvider _serviceProvider;
+
+    [SetUp]
+    public void SetUp()
+    {
+        var services = new ServiceCollection();
+        services.AddSingleton<ModelHandler>();
+        _serviceProvider = services.BuildServiceProvider();
+        _modelHandler = _serviceProvider.GetRequiredService<ModelHandler>();
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        _modelHandler.ClearModel();
+    }
+
+    [Test]
+    public void ThereCanBeOnlyOne()
+    {
+        // Act
+        var attemptToCreateSecondInstance = () =>
+        {
+            var kurganInstance = new ModelHandler();
+        };
+
+        // Assert
+        attemptToCreateSecondInstance.Should().Throw<InvalidOperationException>()
+            .WithMessage("Cannot create more than one instance of ModelHandler class");
+    }
+
+    [Test]
+    public void SetImagePathSetsTheImagePath()
+    {
+        // Arrange
+        _modelHandler.InitModel();
+
+        // Act
+        _modelHandler.SetImagePath(@"D:\ummy\image\path");
+
+        // Assert
+        _modelHandler.GetImagePath().Should().Be(@"D:\ummy\image\path");
+    }
 
     [Test]
     public void SetTitleSetsTheTitle()
     {
         // Arrange
-        _modelHandler = new ModelHandler();
         _modelHandler.InitModel();
 
         // Act
@@ -21,11 +65,58 @@ public class ModelHandlerTests
     }
 
     [Test]
-    public void SetTitleWithoutInitializingTheModelThrowsException()
+    public void SetDescriptionSetsTheDescription()
     {
         // Arrange
-        _modelHandler = new ModelHandler();
+        _modelHandler.InitModel();
 
+        // Act
+        _modelHandler.SetDescription("Description of the issue currently in the handler");
+
+        // Assert
+        _modelHandler.GetDescription().Should().Be("Description of the issue currently in the handler");
+    }
+
+    [Test]
+    public void SetLocationSetsTheLocation()
+    {
+        // Arrange
+        _modelHandler.InitModel();
+        var expected = new IssueCoordinatesModel
+        {
+            Latitude = 52.577621,
+            Longitude = -0.238101
+        };
+
+        // Act
+        var coordinates = new IssueCoordinatesModel
+        {
+            Latitude = 52.577621,
+            Longitude = -0.238101
+        };
+
+        _modelHandler.SetLocation(coordinates);
+
+        // Assert
+        _modelHandler.GetIssueCoordinates().Should().BeEquivalentTo(expected);
+    }
+
+    [Test]
+    public void SetCapturedDateAndTimeSetsTheCapturedDateAndTime()
+    {
+        // Arrange
+        _modelHandler.InitModel();
+
+        // Act
+        _modelHandler.SetCapturedDateAndTime(new(2023, 10, 26, 12, 48, 52));
+
+        // Assert
+        _modelHandler.GetCapturedDateAndTime().Should().Be(new(2023, 10, 26, 12, 48, 52));
+    }
+
+    [Test]
+    public void SetTitleWithoutInitializingTheModelThrowsException()
+    {
         // Act
         var setTitleAction = () => _modelHandler.SetTitle("Jerry's doomed to fail issue");
         var getTitleAction = () => _modelHandler.GetTitle();
@@ -41,7 +132,6 @@ public class ModelHandlerTests
     public void GettingModelValuesAfterSettingThemThenClearingModelThrowsException()
     {
         // Arrange
-        _modelHandler = new ModelHandler();
         _modelHandler.InitModel();
         _modelHandler.SetCapturedDateAndTime(new(2023, 10, 25, 12, 48, 59));
         _modelHandler.SetTitle("Doomed to fail issue");

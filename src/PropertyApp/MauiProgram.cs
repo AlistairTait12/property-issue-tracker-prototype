@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using PropertyApp.ModelHandling;
 
 namespace PropertyApp;
 public static class MauiProgram
@@ -14,8 +15,10 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
+        builder.Services.AddSingleton<IModelHandler, ModelHandler>();
+
 #if DEBUG
-		builder.Logging.AddDebug();
+        builder.Logging.AddDebug();
 #endif
 
         return builder.Build();

@@ -1,4 +1,6 @@
-﻿namespace PropertyApp.ModelHandling;
+﻿using PropertyApp.Model;
+
+namespace PropertyApp.ModelHandling;
 
 public interface IModelHandler
 {
@@ -18,9 +20,9 @@ public interface IModelHandler
 
     string GetDescription();
 
-    void SetLocation(Location location);
+    void SetLocation(IssueCoordinatesModel location);
 
-    Location GetLocation();
+    IssueCoordinatesModel GetIssueCoordinates();
 
     void SetCapturedDateAndTime(DateTime capturedDateAndTime);
 
