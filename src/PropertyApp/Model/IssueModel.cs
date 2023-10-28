@@ -1,7 +1,9 @@
 ﻿namespace PropertyApp.Model;
 
-public record IssueModel
+public record IssueModel : IModel
 {
+    public int Id { get; set; }
+
     public string ImagePath { get; set; }
 
     public string Title { get; set; }

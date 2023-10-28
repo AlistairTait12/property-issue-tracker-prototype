@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "imagePath": "path\to\file1",
+    "title": "A dummy issue",
+    "description": "Some silly billy spilled paint",
+    "location": {
+      "latitude": 52.577621,
+      "longitude": -0.238101
+    },
+    "capturedDateAndTime": "2023-10-20T11:45:01"
+  },
+  {
+    "id": 2,
+    "imagePath": "path\to\file2",
+    "title": "Another dummy issue",
+    "description": "A fence broke",
+    "location": {
+      "latitude": 54.853746,
+      "longitude": -1.488033
+    },
+    "capturedDateAndTime": "2023-10-21T09:43:20"
+  },
+  {
+    "id": 3,
+    "imagePath": "path\to\file3",
+    "title": "Broken lamp post",
+    "description": "lampost toppled on John St",
+    "location": {
+      "latitude": 54.906545,
+      "longitude": -1.380597
+    },
+    "capturedDateAndTime": "2023-10-23T16:43:20"
+  },
+  {
+    "id": 4,
+    "imagePath": "path\to\file4",
+    "title": "Fallen tree",
+    "description": "Tree fallen over in the park",
+    "location": {
+      "latitude": 54.901826,
+      "longitude": -1.380238
+    },
+    "capturedDateAndTime": "2023-10-25T17:43:20"
+  }
+]
