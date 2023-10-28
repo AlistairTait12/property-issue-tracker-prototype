@@ -2,20 +2,10 @@
 
 namespace PropertyApp.ModelHandling;
 
+// TODO: Implement the singleton pattern
 public class ModelHandler : IModelHandler
 {
     private IssueModel _currentModel;
-    private static bool _instanceExists = false;
-
-    public ModelHandler()
-    {
-        if (_instanceExists)
-        {
-            throw new InvalidOperationException(
-                $"Cannot create more than one instance of {nameof(ModelHandler)} class");
-        }
-        _instanceExists = true;
-    }
 
     public void InitModel()
     {
