@@ -9,12 +9,13 @@ namespace PropertyAppTests.JsonReadWriteTests;
 public class JsonHandlerTests
 {
     private JsonHandler<IssueModel> _jsonHandler;
+    private readonly string _folderPath = Path.Combine($"{AppDomain.CurrentDomain.BaseDirectory}", @"..\..\..\JsonReadWriteTests");
 
     [Test]
     public void GetByIdGetsTheDesiredModel()
     {
         // Arrange
-        _jsonHandler = new JsonHandler<IssueModel>();
+        _jsonHandler = new JsonHandler<IssueModel>(_folderPath);
 
         var expected = new IssueModel
         {
@@ -40,6 +41,9 @@ public class JsonHandlerTests
     [Test]
     public void GetByIdThatDoesNotExistThrowsKeyNotFoundException()
     {
+        // Arrange
+        _jsonHandler = new JsonHandler<IssueModel>(_folderPath);
+
         // Act
         var invalidGetByIdAction = () =>
         {
@@ -48,14 +52,14 @@ public class JsonHandlerTests
 
         // Assert
         invalidGetByIdAction.Should().Throw<KeyNotFoundException>()
-            .WithMessage("Model with Id 99 does not exist");
+            .WithMessage("Model in collection IssueModels with Id of 99 does not exist");
     }
 
     [Test]
     public void GetAllReturnsAllModelsInTheJson()
     {
         // Arrange
-        _jsonHandler = new JsonHandler<IssueModel>();
+        _jsonHandler = new JsonHandler<IssueModel>(_folderPath);
 
         // Act
         var actual = _jsonHandler.GetAll();

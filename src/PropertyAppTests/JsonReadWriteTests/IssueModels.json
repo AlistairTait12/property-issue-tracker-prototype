@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "imagePath": "path\to\file1",
+    "imagePath": "path\\to\\file1",
     "title": "A dummy issue",
     "description": "Some silly billy spilled paint",
     "location": {
@@ -12,7 +12,7 @@
   },
   {
     "id": 2,
-    "imagePath": "path\to\file2",
+    "imagePath": "path\\to\\file2",
     "title": "Another dummy issue",
     "description": "A fence broke",
     "location": {
@@ -23,7 +23,7 @@
   },
   {
     "id": 3,
-    "imagePath": "path\to\file3",
+    "imagePath": "path\\to\\file3",
     "title": "Broken lamp post",
     "description": "lampost toppled on John St",
     "location": {
@@ -34,7 +34,7 @@
   },
   {
     "id": 4,
-    "imagePath": "path\to\file4",
+    "imagePath": "path\\to\\file4",
     "title": "Fallen tree",
     "description": "Tree fallen over in the park",
     "location": {
