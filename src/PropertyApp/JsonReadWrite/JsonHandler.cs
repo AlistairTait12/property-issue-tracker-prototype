@@ -13,13 +13,17 @@ public class JsonHandler<T> : IJsonHandler<T> where T : IModel
         _fullPath = Path.Combine(folderPath, fileNameForModel);
     }
 
+    // TODO, in reality, it probably would be a bit inefficient to read the whole file to edit one record
     public T GetById(int id)
     {
         var result = GetAll().FirstOrDefault(model => model.Id == id);
 
         if (result == null)
         {
-            throw new KeyNotFoundException($"Model in collection {typeof(T).Name}s with Id of {id} does not exist");
+            // TODO: What is actually the purpose of throwing here?
+            // How should not finding the model be dealt with?
+            throw new KeyNotFoundException(
+                $"Model in collection {typeof(T).Name}s with {nameof(IModel.Id)} of {id} does not exist");
         }
 
         return result;
@@ -34,4 +38,7 @@ public class JsonHandler<T> : IJsonHandler<T> where T : IModel
 
         return collection;
     }
+
+    // TODO: Json Writing, or is that another class?
+    // TODO: It shouldn't be reading and writing at the same time (at least not the same record)
 }

@@ -21,4 +21,8 @@ public record IssueModel : IModel
 
     [JsonPropertyName("capturedDateAndTime")]
     public DateTime CapturedDateAndTime { get; set; }
+
+    public string ShortDescription => Description.Length > 200
+        ? $"{Description[..200]}..."
+        : Description;
 }

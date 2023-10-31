@@ -3,3 +3,4 @@ bin
 obj
 .vs
 coverage*
+appsettings.[Dd]evelopment.json
