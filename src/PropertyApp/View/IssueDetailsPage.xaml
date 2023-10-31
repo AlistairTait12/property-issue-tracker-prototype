@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PropertyApp.View.IssueDetailsPage"
+             xmlns:model="clr-namespace:PropertyApp.Model"
+             xmlns:viewModel="clr-namespace:PropertyApp.ViewModel"
+             x:DataType="viewModel:IssueDetailsViewModel"
+             Title="Details"
+             >
+    <VerticalStackLayout>
+        <Label 
+            Text="{Binding IssueModel.Title}"
+            FontSize="Title"
+            />
+        <Label
+            Text="Description"
+            FontAttributes="Bold"
+            />
+        <Label
+            Text="{Binding IssueModel.Description}"
+            />
+        <Label
+            Text="Date and time"
+            FontAttributes="Bold"
+            />
+        <Label
+            Text="{Binding IssueModel.CapturedDateAndTime}"
+            />
+        <Label
+            Text="Location"
+            FontAttributes="Bold"
+            />
+        <Label
+            Text="{Binding IssueModel.Location.Latitude}"
+            />
+        <Label
+            Text="{Binding IssueModel.Location.Longitude}"
+            />
+    </VerticalStackLayout>
+</ContentPage>

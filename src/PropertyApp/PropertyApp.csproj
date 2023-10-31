@@ -55,6 +55,9 @@
 		<MauiXaml Update="View\AboutPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+		<MauiXaml Update="View\IssueDetailsPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="View\IssuesListPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>

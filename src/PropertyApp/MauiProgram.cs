@@ -27,6 +27,8 @@ public static class MauiProgram
             });
         builder.Services.AddTransient<IssuesListPage>();
         builder.Services.AddTransient<IssuesListViewModel>();
+        builder.Services.AddTransient<IssueDetailsPage>();
+        builder.Services.AddTransient<IssueDetailsViewModel>();
 
 #if DEBUG
         builder.Logging.AddDebug();
