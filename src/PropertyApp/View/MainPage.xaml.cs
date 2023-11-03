@@ -1,4 +1,4 @@
-﻿namespace PropertyApp;
+﻿namespace PropertyApp.View;
 
 public partial class MainPage : ContentPage
 {

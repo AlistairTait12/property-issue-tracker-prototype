@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PropertyApp.View.IssueDetailsPage"
+             xmlns:model="clr-namespace:PropertyApp.Model"
+             xmlns:viewModel="clr-namespace:PropertyApp.ViewModel"
+             x:DataType="viewModel:IssueDetailsViewModel"
+             Title="Details"
+             >
+    <VerticalStackLayout
+        Margin="10">
+        <Frame
+            HeightRequest="180"
+            >
+            <Label
+                Text="Image would appear here"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                />
+        </Frame>
+        <Label 
+            Text="{Binding IssueModel.Title}"
+            FontSize="Title"
+            Margin="0,10,0,10"
+            />
+        <Label
+            Text="Description"
+            FontAttributes="Bold"
+            />
+        <Label
+            Text="{Binding IssueModel.Description}"
+            Margin="0,0,0,10"
+            />
+        <Label
+            Text="Date and time"
+            FontAttributes="Bold"
+            />
+        <Label
+            Text="{Binding IssueModel.CapturedDateAndTime}"
+            Margin="0,0,0,10"
+            />
+        <Label
+            Text="Location"
+            FontAttributes="Bold"
+            />
+        <Label
+            Text="{Binding IssueModel.Location.Latitude}"
+            />
+        <Label
+            Text="{Binding IssueModel.Location.Longitude}"
+            />
+        <Button
+            MaximumWidthRequest="115"
+            Text="Open in map"
+            HorizontalOptions="Start"
+            />
+    </VerticalStackLayout>
+</ContentPage>
