@@ -23,4 +23,8 @@
     <ProjectReference Include="..\PropertyApp\PropertyApp.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModelTests\" />
+  </ItemGroup>
+
 </Project>

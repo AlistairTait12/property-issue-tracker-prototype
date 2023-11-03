@@ -18,7 +18,7 @@ public class JsonHandler<T> : IJsonHandler<T> where T : IModel
     {
         var result = GetAll().FirstOrDefault(model => model.Id == id);
 
-        if (result == null)
+        if (result is null)
         {
             // TODO: What is actually the purpose of throwing here?
             // How should not finding the model be dealt with?
@@ -32,9 +32,9 @@ public class JsonHandler<T> : IJsonHandler<T> where T : IModel
     // TODO: Learn how to optimise for LINQ pipeline
     public IEnumerable<T> GetAll()
     {
-        using var sr = new StreamReader(_fullPath);
-        var raw = sr.ReadToEnd();
-        var collection = JsonSerializer.Deserialize<IEnumerable<T>>(raw);
+        using var streamReader = new StreamReader(_fullPath);
+        var rawJson = streamReader.ReadToEnd();
+        var collection = JsonSerializer.Deserialize<IEnumerable<T>>(rawJson);
 
         return collection;
     }

@@ -123,7 +123,7 @@ public class ModelHandlerTests
     {
         // Act
         var setTitleAction = () => _modelHandler.SetTitle("Jerry's doomed to fail issue");
-        var getTitleAction = () => _modelHandler.GetTitle();
+        var getTitleAction = _modelHandler.GetTitle;
 
         // Assert
         setTitleAction.Should().Throw<InvalidOperationException>()

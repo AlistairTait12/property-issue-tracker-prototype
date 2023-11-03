@@ -45,10 +45,32 @@ public class IssueModelTests
         actual.Should().Be("Just a short description");
     }
 
+    [Test]
+    public void GetShortDescriptionWhenExactly200CharactersOmitsEllipsis()
+    {
+        // Arrange
+        var issueModel = new IssueModel
+        {
+            Description = GetExactlyTwoHundredCharacters()
+        };
+
+        // Act
+        var actual = issueModel.ShortDescription;
+
+        // Assert
+        actual.Should().Be(GetExactlyTwoHundredCharacters());
+    }
+
     private static string GetLongDescription() =>
         @"blah blah blah blah blah blah blah blah blah blah "
         + "blah blah blah blah blah blah blah blah blah blah "
         + "blah blah blah blah blah blah blah blah blah blah "
         + "blah blah blah blah blah blah blah blah blah blah "
         + "blah blah blah blah blah blah blah blah blah blah";
+
+    private static string GetExactlyTwoHundredCharacters() =>
+        @"blah blah blah blah blah blah blah blah blah blah "
+        + "blah blah blah blah blah blah blah blah blah blah "
+        + "blah blah blah blah blah blah blah blah blah blah "
+        + "blah blah blah blah blah blah blah blah blah blahh";
 }

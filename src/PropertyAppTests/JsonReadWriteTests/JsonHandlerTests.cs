@@ -11,12 +11,16 @@ public class JsonHandlerTests
     private JsonHandler<IssueModel> _jsonHandler;
     private readonly string _folderPath = Path.Combine($"{AppDomain.CurrentDomain.BaseDirectory}", @"..\..\..\JsonReadWriteTests");
 
+    [SetUp]
+    public void SetUp()
+    {
+        _jsonHandler = new JsonHandler<IssueModel>(_folderPath);
+    }
+
     [Test]
     public void GetByIdGetsTheDesiredModel()
     {
         // Arrange
-        _jsonHandler = new JsonHandler<IssueModel>(_folderPath);
-
         var expected = new IssueModel
         {
             Id = 3,
@@ -41,9 +45,6 @@ public class JsonHandlerTests
     [Test]
     public void GetByIdThatDoesNotExistThrowsKeyNotFoundException()
     {
-        // Arrange
-        _jsonHandler = new JsonHandler<IssueModel>(_folderPath);
-
         // Act
         var invalidGetByIdAction = () =>
         {
@@ -58,9 +59,6 @@ public class JsonHandlerTests
     [Test]
     public void GetAllReturnsAllModelsInTheJson()
     {
-        // Arrange
-        _jsonHandler = new JsonHandler<IssueModel>(_folderPath);
-
         // Act
         var actual = _jsonHandler.GetAll();
 
@@ -68,7 +66,7 @@ public class JsonHandlerTests
         actual.Should().BeEquivalentTo(GetExpectedCollectionOfIssues());
     }
 
-    public IEnumerable<IssueModel> GetExpectedCollectionOfIssues() => new List<IssueModel>
+    private IEnumerable<IssueModel> GetExpectedCollectionOfIssues() => new List<IssueModel>
     {
         new()
         {
