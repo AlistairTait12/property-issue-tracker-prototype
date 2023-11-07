@@ -45,4 +45,10 @@ Other basic features I have thought of but are currently out of scope are:
   
 ## Any future plans?
 Yes! I would like to try a few prototypes first in one or two more languages and all being well, I would like to choose the right one and develop a real, fully functional application.  
-  
+
+### Getting set up
+Reserved for future content
+
+## Useful adb commands
+**How to push from somewhere on your machine to emulated device**
+$: adb push "path\from\your\machine" "/sdcard/Android/data/com.companyname.propertyapp"

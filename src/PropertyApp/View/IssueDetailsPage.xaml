@@ -36,7 +36,7 @@
             FontAttributes="Bold"
             />
         <Label
-            Text="{Binding IssueModel.CapturedDateAndTime}"
+            Text="{Binding IssueModel.CalendarDateAndTime}"
             Margin="0,0,0,10"
             />
         <Label

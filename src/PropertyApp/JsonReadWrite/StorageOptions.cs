@@ -1,4 +1,4 @@
-﻿namespace PropertyApp.Options;
+﻿namespace PropertyApp.JsonReadWrite;
 
 public class StorageOptions
 {

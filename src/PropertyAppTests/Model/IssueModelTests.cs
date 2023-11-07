@@ -61,6 +61,21 @@ public class IssueModelTests
         actual.Should().Be(GetExactlyTwoHundredCharacters());
     }
 
+    [Test]
+    public void GetCalendarDateAndTimeReturnsHumanReadableFormat()
+    {
+        var issueModel = new IssueModel
+        {
+            CapturedDateAndTime = new(2023, 10, 5, 10, 55, 45)
+        };
+
+        // Act
+        var actual = issueModel.CalendarDateAndTime;
+
+        // Assert
+        actual.Should().Be("Thu 5 Oct 2023, 10:55am");
+    }
+
     private static string GetLongDescription() =>
         @"blah blah blah blah blah blah blah blah blah blah "
         + "blah blah blah blah blah blah blah blah blah blah "

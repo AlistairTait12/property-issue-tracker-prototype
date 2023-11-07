@@ -5,7 +5,13 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PropertyApp", "PropertyApp\PropertyApp.csproj", "{C22A2659-C52E-40C7-ACE1-5D3B0C8BECAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PropertyAppTests", "PropertyAppTests\PropertyAppTests.csproj", "{1F54C59B-37E5-4B66-8C7D-49037A39A5FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PropertyAppTests", "PropertyAppTests\PropertyAppTests.csproj", "{1F54C59B-37E5-4B66-8C7D-49037A39A5FA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FE5C73AB-DDA1-4F63-A5E6-C4326AB09D0E}"
+	ProjectSection(SolutionItems) = preProject
+		..\.gitignore = ..\.gitignore
+		..\README.md = ..\README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,5 @@
-﻿using PropertyApp.JsonReadWrite;
+﻿using Microsoft.Extensions.Options;
+using PropertyApp.JsonReadWrite;
 using PropertyApp.Model;
 using System.Diagnostics.CodeAnalysis;
 
@@ -14,7 +15,14 @@ public class JsonHandlerTests
     [SetUp]
     public void SetUp()
     {
-        _jsonHandler = new JsonHandler<IssueModel>(_folderPath);
+        var storageModel = new StorageOptions
+        {
+            StorageBasePath = _folderPath,
+        };
+
+        var options = Options.Create(storageModel);
+
+        _jsonHandler = new JsonHandler<IssueModel>(options);
     }
 
     [Test]
