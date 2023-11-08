@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using PropertyApp.Model;
+using System.Collections;
 using System.Text.Json;
 using System.Xml.Serialization;
 
@@ -49,6 +50,39 @@ public class JsonHandler<T> : IJsonHandler<T> where T : IModel
     }
     // TODO: Json Writing, or is that another class?
     // TODO: It shouldn't be reading and writing at the same time (at least not the same record)
+
+    public async Task AddAsync(T entity)
+    {
+        VerifyFilePath();
+
+        using var streamReader = new StreamReader(_fullPath);
+        var fileContents = await streamReader.ReadToEndAsync();
+        streamReader.Dispose();
+
+        List<T> collection;
+
+        if (fileContents == string.Empty)
+        {
+            collection = new List<T>();
+            entity.Id = 1;
+        }
+        else
+        {
+            collection = JsonSerializer.Deserialize<List<T>>(fileContents);
+        }
+
+        collection.Add(entity);
+
+        var json = JsonSerializer.Serialize(collection,
+            new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                IgnoreReadOnlyProperties = true,
+                
+            });
+
+        await File.WriteAllTextAsync(_fullPath, json);
+    }
 
     private void VerifyFilePath()
     {

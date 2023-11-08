@@ -26,6 +26,7 @@
 
     <ShellContent
         Title="Capture"
+        ContentTemplate="{DataTemplate View:SetTitleAndDescriptionPage}"
         />
 
     <ShellContent

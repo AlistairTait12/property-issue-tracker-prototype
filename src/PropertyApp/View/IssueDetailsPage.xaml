@@ -18,7 +18,7 @@
                 VerticalOptions="Center"
                 />
         </Frame>
-        <Label 
+        <Label
             Text="{Binding IssueModel.Title}"
             FontSize="Title"
             Margin="0,10,0,10"

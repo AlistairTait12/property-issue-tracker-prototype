@@ -7,4 +7,6 @@ public interface IJsonHandler<T> where T : IModel
     T GetById(int id);
 
     IEnumerable<T> GetAll();
+
+    Task AddAsync (T entity);
 }

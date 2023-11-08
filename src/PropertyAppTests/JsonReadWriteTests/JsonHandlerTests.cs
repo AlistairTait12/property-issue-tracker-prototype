@@ -2,6 +2,7 @@
 using PropertyApp.JsonReadWrite;
 using PropertyApp.Model;
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
 
 namespace PropertyAppTests.JsonReadWriteTests;
 
@@ -10,7 +11,8 @@ namespace PropertyAppTests.JsonReadWriteTests;
 public class JsonHandlerTests
 {
     private JsonHandler<IssueModel> _jsonHandler;
-    private readonly string _folderPath = Path.Combine($"{AppDomain.CurrentDomain.BaseDirectory}", @"..\..\..\JsonReadWriteTests");
+    private readonly string _folderPath = Path.Combine(
+        $"{AppDomain.CurrentDomain.BaseDirectory}", @"..\..\..\JsonReadWriteTests");
 
     [SetUp]
     public void SetUp()
@@ -23,6 +25,17 @@ public class JsonHandlerTests
         var options = Options.Create(storageModel);
 
         _jsonHandler = new JsonHandler<IssueModel>(options);
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        var pathToClean = Path.Combine(
+            $"{AppDomain.CurrentDomain.BaseDirectory}",
+            @"..\..\..\JsonReadWriteTests",
+            @"JsonForWriting\IssueModels.json");
+
+        File.WriteAllText(pathToClean, string.Empty);
     }
 
     [Test]
@@ -72,6 +85,43 @@ public class JsonHandlerTests
 
         // Assert
         actual.Should().BeEquivalentTo(GetExpectedCollectionOfIssues());
+    }
+
+    [Test]
+    public async Task AddAddsAModelToTheJson()
+    {
+        // Arrange
+        var storageModel = new StorageOptions
+        {
+            StorageBasePath = Path.Combine(_folderPath, "JsonForWriting")
+        };
+
+        var options = Options.Create(storageModel);
+        _jsonHandler = new JsonHandler<IssueModel>(options);
+
+        // Act
+        var modelToAdd = new IssueModel
+        {
+            Title = "Testing"
+        };
+
+        await _jsonHandler.AddAsync(modelToAdd);
+
+        using var streamReader = new StreamReader(Path.Combine(_folderPath, "JsonForWriting", "IssueModels.json"));
+        var raw = await streamReader.ReadToEndAsync();
+
+        var actual = JsonSerializer.Deserialize<IEnumerable<IssueModel>>(raw);
+
+        // Assert
+        actual.Should().BeEquivalentTo(new List<IssueModel>
+        {
+            new()
+            {
+                Id = 1,
+                Title = "Testing",
+                CapturedDateAndTime = DateTime.MinValue
+            }
+        });
     }
 
     private IEnumerable<IssueModel> GetExpectedCollectionOfIssues() => new List<IssueModel>
