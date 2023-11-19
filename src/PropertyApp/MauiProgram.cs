@@ -1,9 +1,12 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using PropertyApp.JsonReadWrite;
 using PropertyApp.Model;
 using PropertyApp.ModelHandling;
 using PropertyApp.View;
 using PropertyApp.ViewModel;
+using System.Reflection;
 
 namespace PropertyApp;
 public static class MauiProgram
@@ -11,6 +14,7 @@ public static class MauiProgram
     public static MauiApp CreateMauiApp()
     {
         var builder = MauiApp.CreateBuilder();
+
         builder
             .UseMauiApp<App>()
             .ConfigureFonts(fonts =>
@@ -20,15 +24,15 @@ public static class MauiProgram
             });
 
         builder.Services.AddSingleton<IModelHandler, ModelHandler>();
-        builder.Services
-            .AddSingleton<IJsonHandler<IssueModel>, JsonHandler<IssueModel>>(factory =>
-            {
-                return new JsonHandler<IssueModel>(string.Empty);
-            });
+        builder.Services.AddSingleton<IJsonHandler<IssueModel>>(new JsonHandler<IssueModel>(FileSystem.Current.CacheDirectory));
         builder.Services.AddTransient<IssuesListPage>();
         builder.Services.AddTransient<IssuesListViewModel>();
         builder.Services.AddTransient<IssueDetailsPage>();
         builder.Services.AddTransient<IssueDetailsViewModel>();
+        builder.Services.AddTransient<SetTitleAndDescriptionPage>();
+        builder.Services.AddTransient<SetTitleAndDescriptionViewModel>();
+        builder.Services.AddTransient<MainPage>();
+        builder.Services.AddTransient<MainViewModel>();
 
 #if DEBUG
         builder.Logging.AddDebug();

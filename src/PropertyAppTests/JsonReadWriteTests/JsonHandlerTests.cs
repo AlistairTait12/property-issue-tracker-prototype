@@ -1,6 +1,8 @@
-﻿using PropertyApp.JsonReadWrite;
+﻿using Microsoft.Extensions.Options;
+using PropertyApp.JsonReadWrite;
 using PropertyApp.Model;
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
 
 namespace PropertyAppTests.JsonReadWriteTests;
 
@@ -9,12 +11,24 @@ namespace PropertyAppTests.JsonReadWriteTests;
 public class JsonHandlerTests
 {
     private JsonHandler<IssueModel> _jsonHandler;
-    private readonly string _folderPath = Path.Combine($"{AppDomain.CurrentDomain.BaseDirectory}", @"..\..\..\JsonReadWriteTests");
+    private readonly string _folderPath = Path.Combine(
+        $"{AppDomain.CurrentDomain.BaseDirectory}", @"..\..\..\JsonReadWriteTests");
 
     [SetUp]
     public void SetUp()
     {
         _jsonHandler = new JsonHandler<IssueModel>(_folderPath);
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        var pathToClean = Path.Combine(
+            $"{AppDomain.CurrentDomain.BaseDirectory}",
+            @"..\..\..\JsonReadWriteTests",
+            @"JsonForWriting\IssueModels.json");
+
+        File.WriteAllText(pathToClean, string.Empty);
     }
 
     [Test]
@@ -64,6 +78,77 @@ public class JsonHandlerTests
 
         // Assert
         actual.Should().BeEquivalentTo(GetExpectedCollectionOfIssues());
+    }
+
+    [Test]
+    public async Task AddAddsAModelToTheJson()
+    {
+        // Arrange
+        var folderPath = Path.Combine(
+            $"{AppDomain.CurrentDomain.BaseDirectory}", @"..\..\..\JsonReadWriteTests\JsonForWriting");
+
+        _jsonHandler = new JsonHandler<IssueModel>(folderPath);
+
+        // Act
+        var modelToAdd = new IssueModel
+        {
+            Title = "Testing"
+        };
+
+        await _jsonHandler.AddAsync(modelToAdd);
+
+        using var streamReader = new StreamReader(Path.Combine(_folderPath, "JsonForWriting", "IssueModels.json"));
+        var raw = await streamReader.ReadToEndAsync();
+        var actual = JsonSerializer.Deserialize<IEnumerable<IssueModel>>(raw);
+
+        // Assert
+        actual.Should().BeEquivalentTo(new List<IssueModel>
+        {
+            new()
+            {
+                Id = 1,
+                Title = "Testing",
+                CapturedDateAndTime = DateTime.MinValue
+            }
+        });
+    }
+
+    [Test]
+    public async Task AddingMultipleEntitiesKeepsTrackOfId()
+    {
+        // Arrange
+        var folderPath = Path.Combine(
+            $"{AppDomain.CurrentDomain.BaseDirectory}", @"..\..\..\JsonReadWriteTests\JsonForWriting");
+
+        _jsonHandler = new JsonHandler<IssueModel>(folderPath);
+
+        // Act
+        var firstModelToAdd = new IssueModel { Title = "Testing" };
+        var secondModelToAdd = new IssueModel { Title = "Testing again" };
+
+        await _jsonHandler.AddAsync(firstModelToAdd);
+        await _jsonHandler.AddAsync(secondModelToAdd);
+
+        using var streamReader = new StreamReader(Path.Combine(_folderPath, "JsonForWriting", "IssueModels.json"));
+        var raw = await streamReader.ReadToEndAsync();
+        var actual = JsonSerializer.Deserialize<IEnumerable<IssueModel>>(raw);
+
+        // Assert
+        actual.Should().BeEquivalentTo(new List<IssueModel>()
+        {
+            new()
+            {
+                Id = 1,
+                Title = "Testing",
+                CapturedDateAndTime = DateTime.MinValue
+            },
+            new()
+            {
+                Id = 2,
+                Title = "Testing again",
+                CapturedDateAndTime = DateTime.MinValue
+            }
+        }, options => options.WithStrictOrdering());
     }
 
     private IEnumerable<IssueModel> GetExpectedCollectionOfIssues() => new List<IssueModel>

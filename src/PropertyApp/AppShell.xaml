@@ -5,6 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:PropertyApp"
     xmlns:View="clr-namespace:PropertyApp.View"
+    xmlns:viewModel="clr-namespace:PropertyApp.ViewModel"
+    x:DataType="viewModel:MainViewModel"
     Shell.FlyoutBehavior="Flyout"
     FlyoutWidth="250"
     >
@@ -18,21 +20,9 @@
             Margin="20"
             />
     </Shell.FlyoutHeader>
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate View:MainPage}"
-        Route="MainPage"
-        />
-
-    <ShellContent
-        Title="Capture"
-        />
-
-    <ShellContent
-        Title="Issues"
-        ContentTemplate="{DataTemplate View:IssuesListPage}"
-        />
-
+    <MenuItem Text="Home" Command="{Binding GoHomeCommand}" />
+    <MenuItem Text="Capture" Command="{Binding GoToCaptureCommand}" />
+    <MenuItem Text="Issues" Command="{Binding GoToIssuesCommand}"/>
     <ShellContent
         Title="About"
         ContentTemplate="{DataTemplate View:AboutPage}"
