@@ -1,11 +1,13 @@
-﻿namespace PropertyApp;
+﻿using PropertyApp.ViewModel;
+
+namespace PropertyApp;
 
 public partial class App : Application
 {
-    public App()
+    public App(MainViewModel mainViewModel)
     {
         InitializeComponent();
 
-        MainPage = new AppShell();
+        MainPage = new AppShell(mainViewModel);
     }
 }

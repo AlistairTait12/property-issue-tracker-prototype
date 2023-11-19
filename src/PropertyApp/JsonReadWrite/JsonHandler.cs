@@ -1,8 +1,5 @@
-﻿using Microsoft.Extensions.Options;
-using PropertyApp.Model;
-using System.Collections;
+﻿using PropertyApp.Model;
 using System.Text.Json;
-using System.Xml.Serialization;
 
 namespace PropertyApp.JsonReadWrite;
 
@@ -10,13 +7,29 @@ public class JsonHandler<T> : IJsonHandler<T> where T : IModel
 {
     private readonly string _fullPath;
 
-    public JsonHandler(IOptions<StorageOptions> options)
+    public JsonHandler(string basePath)
     {
-        // TODO: Figure out how to dynamically resolve location on a per device basis.
-        // It is highly likely that the path here is specific to the device I am emulating
-        var basePath = options.Value.StorageBasePath;
-        var fileNameForModel = $"{typeof(T).Name}s.json";
-        _fullPath = Path.Combine(basePath, fileNameForModel);
+        _fullPath = Path.Combine(basePath, $"{typeof(T).Name}s.json");
+
+        if (!Directory.Exists(basePath))
+        {
+            Directory.CreateDirectory(basePath);
+        }
+
+        if (!File.Exists(_fullPath))
+        {
+            File.Create(_fullPath);
+        }
+
+        using var fileStream = new FileStream(_fullPath, FileMode.Open, FileAccess.ReadWrite);
+        using var streamReader = new StreamReader(fileStream);
+        var fileContents = streamReader.ReadToEnd();
+
+        if (fileContents.Length < 0)
+        {
+            using var streamWriter = new StreamWriter(fileStream);
+            streamWriter.WriteLine("[]");
+        }
     }
 
     // TODO: in reality, it probably would be a bit inefficient to read the whole file to edit one record
@@ -59,17 +72,13 @@ public class JsonHandler<T> : IJsonHandler<T> where T : IModel
         var fileContents = await streamReader.ReadToEndAsync();
         streamReader.Dispose();
 
-        List<T> collection;
+        var collection = fileContents == string.Empty
+            ? new List<T>()
+            : JsonSerializer.Deserialize<List<T>>(fileContents);
 
-        if (fileContents == string.Empty)
-        {
-            collection = new List<T>();
-            entity.Id = 1;
-        }
-        else
-        {
-            collection = JsonSerializer.Deserialize<List<T>>(fileContents);
-        }
+        entity.Id = collection.Any()
+            ? collection.OrderBy(entity => entity.Id).Last().Id + 1
+            : 1;
 
         collection.Add(entity);
 
@@ -78,7 +87,6 @@ public class JsonHandler<T> : IJsonHandler<T> where T : IModel
             {
                 WriteIndented = true,
                 IgnoreReadOnlyProperties = true,
-                
             });
 
         await File.WriteAllTextAsync(_fullPath, json);

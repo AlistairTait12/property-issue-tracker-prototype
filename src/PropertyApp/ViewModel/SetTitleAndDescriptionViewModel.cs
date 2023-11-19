@@ -12,9 +12,11 @@ public partial class SetTitleAndDescriptionViewModel : ObservableObject
     private readonly IModelHandler _modelHandler;
     private readonly IJsonHandler<IssueModel> _jsonHandler;
 
-    public SetTitleAndDescriptionViewModel(IModelHandler modelHandler)
+    public SetTitleAndDescriptionViewModel(IModelHandler modelHandler,
+        IJsonHandler<IssueModel> jsonHandler)
     {
         _modelHandler = modelHandler;
+        _jsonHandler = jsonHandler;
         _modelHandler.InitModel();
     }
 
@@ -26,12 +28,13 @@ public partial class SetTitleAndDescriptionViewModel : ObservableObject
     {
         AddTitle();
         _modelHandler.SetCapturedDateAndTime(DateTime.Now);
-        // TODO: Add logic to be able to save the model to storage
         var modelToSave = new IssueModel
         {
             Title = _modelHandler.GetTitle(),
             CapturedDateAndTime = _modelHandler.GetCapturedDateAndTime()
         };
+
+        await _jsonHandler.AddAsync(modelToSave);
 
         await Shell.Current.GoToAsync(nameof(MainPage), true);
     }

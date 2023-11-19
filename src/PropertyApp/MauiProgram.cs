@@ -31,21 +31,16 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
-        builder.Services.AddTransient<IOptions<StorageOptions>>(services =>
-        {
-            var storageOptions = new StorageOptions();
-            builder.Configuration.GetSection("StorageOptions").Bind(storageOptions);
-            return Options.Create(storageOptions);
-        });
-
         builder.Services.AddSingleton<IModelHandler, ModelHandler>();
-        builder.Services.AddSingleton<IJsonHandler<IssueModel>, JsonHandler<IssueModel>>();
+        builder.Services.AddSingleton<IJsonHandler<IssueModel>>(new JsonHandler<IssueModel>(FileSystem.Current.CacheDirectory));
         builder.Services.AddTransient<IssuesListPage>();
         builder.Services.AddTransient<IssuesListViewModel>();
         builder.Services.AddTransient<IssueDetailsPage>();
         builder.Services.AddTransient<IssueDetailsViewModel>();
         builder.Services.AddTransient<SetTitleAndDescriptionPage>();
         builder.Services.AddTransient<SetTitleAndDescriptionViewModel>();
+        builder.Services.AddTransient<MainPage>();
+        builder.Services.AddTransient<MainViewModel>();
 
 #if DEBUG
         builder.Logging.AddDebug();

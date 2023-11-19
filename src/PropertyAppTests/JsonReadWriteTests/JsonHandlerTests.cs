@@ -17,14 +17,7 @@ public class JsonHandlerTests
     [SetUp]
     public void SetUp()
     {
-        var storageModel = new StorageOptions
-        {
-            StorageBasePath = _folderPath,
-        };
-
-        var options = Options.Create(storageModel);
-
-        _jsonHandler = new JsonHandler<IssueModel>(options);
+        _jsonHandler = new JsonHandler<IssueModel>(_folderPath);
     }
 
     [TearDown]
@@ -91,13 +84,10 @@ public class JsonHandlerTests
     public async Task AddAddsAModelToTheJson()
     {
         // Arrange
-        var storageModel = new StorageOptions
-        {
-            StorageBasePath = Path.Combine(_folderPath, "JsonForWriting")
-        };
+        var folderPath = Path.Combine(
+            $"{AppDomain.CurrentDomain.BaseDirectory}", @"..\..\..\JsonReadWriteTests\JsonForWriting");
 
-        var options = Options.Create(storageModel);
-        _jsonHandler = new JsonHandler<IssueModel>(options);
+        _jsonHandler = new JsonHandler<IssueModel>(folderPath);
 
         // Act
         var modelToAdd = new IssueModel
@@ -109,7 +99,6 @@ public class JsonHandlerTests
 
         using var streamReader = new StreamReader(Path.Combine(_folderPath, "JsonForWriting", "IssueModels.json"));
         var raw = await streamReader.ReadToEndAsync();
-
         var actual = JsonSerializer.Deserialize<IEnumerable<IssueModel>>(raw);
 
         // Assert
@@ -122,6 +111,44 @@ public class JsonHandlerTests
                 CapturedDateAndTime = DateTime.MinValue
             }
         });
+    }
+
+    [Test]
+    public async Task AddingMultipleEntitiesKeepsTrackOfId()
+    {
+        // Arrange
+        var folderPath = Path.Combine(
+            $"{AppDomain.CurrentDomain.BaseDirectory}", @"..\..\..\JsonReadWriteTests\JsonForWriting");
+
+        _jsonHandler = new JsonHandler<IssueModel>(folderPath);
+
+        // Act
+        var firstModelToAdd = new IssueModel { Title = "Testing" };
+        var secondModelToAdd = new IssueModel { Title = "Testing again" };
+
+        await _jsonHandler.AddAsync(firstModelToAdd);
+        await _jsonHandler.AddAsync(secondModelToAdd);
+
+        using var streamReader = new StreamReader(Path.Combine(_folderPath, "JsonForWriting", "IssueModels.json"));
+        var raw = await streamReader.ReadToEndAsync();
+        var actual = JsonSerializer.Deserialize<IEnumerable<IssueModel>>(raw);
+
+        // Assert
+        actual.Should().BeEquivalentTo(new List<IssueModel>()
+        {
+            new()
+            {
+                Id = 1,
+                Title = "Testing",
+                CapturedDateAndTime = DateTime.MinValue
+            },
+            new()
+            {
+                Id = 2,
+                Title = "Testing again",
+                CapturedDateAndTime = DateTime.MinValue
+            }
+        }, options => options.WithStrictOrdering());
     }
 
     private IEnumerable<IssueModel> GetExpectedCollectionOfIssues() => new List<IssueModel>
