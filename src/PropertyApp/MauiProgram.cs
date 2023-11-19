@@ -15,14 +15,6 @@ public static class MauiProgram
     {
         var builder = MauiApp.CreateBuilder();
 
-        var assembly = Assembly.GetExecutingAssembly();
-        using var stream = FileSystem.OpenAppPackageFileAsync("appsettings.json");
-        var config = new ConfigurationBuilder()
-            .AddJsonStream(stream.Result)
-            .Build();
-
-        builder.Configuration.AddConfiguration(config);
-
         builder
             .UseMauiApp<App>()
             .ConfigureFonts(fonts =>

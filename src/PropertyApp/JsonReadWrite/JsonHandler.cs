@@ -25,7 +25,7 @@ public class JsonHandler<T> : IJsonHandler<T> where T : IModel
         using var streamReader = new StreamReader(fileStream);
         var fileContents = streamReader.ReadToEnd();
 
-        if (fileContents.Length < 0)
+        if (fileContents.Length <= 0)
         {
             using var streamWriter = new StreamWriter(fileStream);
             streamWriter.WriteLine("[]");
