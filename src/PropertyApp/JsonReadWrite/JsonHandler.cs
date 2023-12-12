@@ -11,22 +11,9 @@ public class JsonHandler<T> : IJsonHandler<T> where T : IModel
     {
         _fullPath = Path.Combine(basePath, $"{typeof(T).Name}s.json");
 
-        if (!Directory.Exists(basePath))
-        {
-            Directory.CreateDirectory(basePath);
-        }
-
         if (!File.Exists(_fullPath))
         {
-            File.Create(_fullPath);
-        }
-
-        using var fileStream = new FileStream(_fullPath, FileMode.Open, FileAccess.ReadWrite);
-        using var streamReader = new StreamReader(fileStream);
-        var fileContents = streamReader.ReadToEnd();
-
-        if (fileContents.Length <= 0)
-        {
+            using var fileStream = new FileStream(_fullPath, FileMode.Create, FileAccess.ReadWrite);
             using var streamWriter = new StreamWriter(fileStream);
             streamWriter.WriteLine("[]");
         }
