@@ -1,12 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Logging;
 using PropertyApp.JsonReadWrite;
 using PropertyApp.Model;
 using PropertyApp.ModelHandling;
 using PropertyApp.View;
 using PropertyApp.ViewModel;
-using System.Reflection;
 
 namespace PropertyApp;
 public static class MauiProgram
