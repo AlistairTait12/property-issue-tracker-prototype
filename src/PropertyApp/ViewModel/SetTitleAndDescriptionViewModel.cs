@@ -36,7 +36,7 @@ public partial class SetTitleAndDescriptionViewModel : ObservableObject
 
         await _jsonHandler.AddAsync(modelToSave);
 
-        await Shell.Current.GoToAsync(nameof(MainPage), true);
+        await Shell.Current.GoToAsync($"//{nameof(MainPage)}", true);
     }
 
     [RelayCommand]
