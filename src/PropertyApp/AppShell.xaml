@@ -20,10 +20,6 @@
             Margin="20"
             />
     </Shell.FlyoutHeader>
-    <!--Try replacing with Route-->
-    <!--<MenuItem Text="Home" Command="{Binding GoHomeCommand}" />-->
-    <!--<MenuItem Text="Capture" Command="{Binding GoToCaptureCommand}" />-->
-    <!--<MenuItem Text="Issues" Command="{Binding GoToIssuesCommand}"/>-->
     <FlyoutItem Title="Home" Route="MainPage">
         <Tab>
             <ShellContent ContentTemplate="{DataTemplate View:MainPage}" />
