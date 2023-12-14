@@ -20,9 +20,21 @@
             Margin="20"
             />
     </Shell.FlyoutHeader>
-    <MenuItem Text="Home" Command="{Binding GoHomeCommand}" />
-    <MenuItem Text="Capture" Command="{Binding GoToCaptureCommand}" />
-    <MenuItem Text="Issues" Command="{Binding GoToIssuesCommand}"/>
+    <FlyoutItem Title="Home" Route="MainPage">
+        <Tab>
+            <ShellContent ContentTemplate="{DataTemplate View:MainPage}" />
+        </Tab>
+    </FlyoutItem>
+    <FlyoutItem Title="Capture">
+        <Tab>
+            <ShellContent ContentTemplate="{DataTemplate View:SetTitleAndDescriptionPage}"/>
+        </Tab>
+    </FlyoutItem>
+    <FlyoutItem Title="Issues" Route="IssuesListPage">
+        <Tab>
+            <ShellContent ContentTemplate="{DataTemplate View:IssuesListPage}"/>
+        </Tab>
+    </FlyoutItem>
     <ShellContent
         Title="About"
         ContentTemplate="{DataTemplate View:AboutPage}"
