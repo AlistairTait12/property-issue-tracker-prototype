@@ -16,9 +16,18 @@
             ClearButtonVisibility="WhileEditing"
             Text="{Binding Title}"
             />
+        <Label
+            Text="Description"
+            FontSize="Header"
+            />
+        <Editor
+            Placeholder="Enter Description here"
+            Text="{Binding Description}"
+            HeightRequest="150"
+            />
         <Button
             Text="Save Issue"
-            HorizontalOptions="Center"
+            HorizontalOptions="End"
             MaximumWidthRequest="400"
             Command="{Binding SaveModelCommand}"
             />
