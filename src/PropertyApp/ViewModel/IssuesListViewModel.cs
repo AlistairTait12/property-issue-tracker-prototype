@@ -15,7 +15,13 @@ public partial class IssuesListViewModel : ObservableObject
         _issueModelJsonHandler = issueModelJsonHandler;
     }
 
-    public IEnumerable<IssueModel> IssueModels => _issueModelJsonHandler.GetAll();
+    [ObservableProperty]
+    IEnumerable<IssueModel> issueModels;
+
+    public void RefreshIssueModels()
+    {
+        IssueModels = _issueModelJsonHandler.GetAll();
+    }
 
     // TODO: Populate a list of issues to be presented to user (so it should require a JSON Handler)
     // TODO: If a user clicks on one, it should take them to the details page for that issue
